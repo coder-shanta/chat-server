@@ -1,0 +1,39 @@
+{
+  "name": "koa-starter",
+  "version": "1.0.0",
+  "description": "This is a simple koa starter project with jwt auth.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "start:dev": "nodemon -r dotenv/config ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shanto-miah/koa-starter.git"
+  },
+  "keywords": [],
+  "author": "Shanto Miah",
+  "bugs": {
+    "url": "https://github.com/shanto-miah/koa-starter/issues"
+  },
+  "homepage": "https://github.com/shanto-miah/koa-starter#readme",
+  "devDependencies": {
+    "dotenv": "^9.0.2",
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "@koa/router": "^10.0.0",
+    "bcrypt": "^5.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.1",
+    "koa-passport": "^4.1.4",
+    "mongoose": "^5.12.9",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "validate.js": "^0.13.1"
+  },
+  "private": true
+}
