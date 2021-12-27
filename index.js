@@ -4,7 +4,7 @@ const Koa = require("koa"),
   json = require("koa-json"),
   logger = require("koa-logger"),
   body = require("koa-bodyparser");
-static = require("koa-static");
+cors = require("@koa/cors");
 
 const mongoose = require("mongoose");
 
@@ -13,6 +13,7 @@ const { Server } = require("socket.io");
 // Load routes
 const root = require("./routes");
 const auth = require("./routes/auth");
+const group = require("./routes/group");
 
 const passport = require("./passport");
 
@@ -30,16 +31,21 @@ mongoose
 
 const app = new Koa();
 
-// Serve static files
-app.use(static(__dirname + "/public"));
-
 app.use(passport.initialize());
 
 const port = process.env.PORT || 3000;
 
-app.use(logger()).use(json()).use(body());
+app
+  .use(logger())
+  .use(json())
+  .use(body())
+  .use(
+    cors({
+      origin: ["http://localhost:3001"],
+    })
+  );
 
-app.use(root.routes()).use(auth.routes());
+app.use(root.routes()).use(auth.routes()).use(group.routes());
 
 const httpServer = createServer(app.callback());
 

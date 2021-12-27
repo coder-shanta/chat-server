@@ -23,3 +23,18 @@ Content-Type: application/json
     "email": "coder.shanta10@gmail.com",
     "password": "123456"
 }
+
+### Get all groups created by me
+GET http://localhost:3000/groups HTTP/1.1
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWM4YzViMjE3ZDIzZDEyMDk3ZWJlYTciLCJpYXQiOjE2NDA1NDc3Njd9.1AyXjSBLT4EEDEV28ox7ph7MFD82yw0bo2RtNlqvrIs
+
+
+### Make a group
+POST http://localhost:3000/groups HTTP/1.1
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWM4YzViMjE3ZDIzZDEyMDk3ZWJlYTciLCJpYXQiOjE2NDA1NDc3Njd9.1AyXjSBLT4EEDEV28ox7ph7MFD82yw0bo2RtNlqvrIs
+Content-Type: application/json
+
+{
+    "name": "First Group",
+    "mambers": []
+}
