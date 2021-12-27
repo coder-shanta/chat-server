@@ -30,9 +30,11 @@
     "koa-json": "^2.0.2",
     "koa-logger": "^3.2.1",
     "koa-passport": "^4.1.4",
+    "koa-static": "^5.0.0",
     "mongoose": "^5.12.9",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
+    "socket.io": "^4.4.0",
     "validate.js": "^0.13.1"
   },
   "private": true
