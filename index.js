@@ -35,13 +35,15 @@ app.use(passport.initialize());
 
 const port = process.env.PORT || 3000;
 
+const CORS_ORIGIN = process.env.CORS ? process.env.CORS.split(",") : "*";
+
 app
   .use(logger())
   .use(json())
   .use(body())
   .use(
     cors({
-      origin: ["http://localhost:3001"],
+      origin: CORS_ORIGIN,
     })
   );
 
