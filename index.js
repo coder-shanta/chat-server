@@ -8,7 +8,7 @@ cors = require("@koa/cors");
 
 const mongoose = require("mongoose");
 
-const { Server } = require("socket.io");
+const socketServer = require("./socket/server");
 
 // Load routes
 const root = require("./routes");
@@ -71,15 +71,8 @@ app
 
 const httpServer = createServer(app.callback());
 
-const io = new Server(httpServer, {});
-
-io.on("connection", (socket) => {
-  console.log("A connection made succesfully.", socket.id);
-
-  socket.on("disconnect", () => {
-    console.log("User Disconnected.", socket.id);
-  });
-});
+// connect socket server with http server
+socketServer(httpServer);
 
 httpServer.listen(port, () =>
   console.log(`Server runing at http://localhost:3000`)
