@@ -64,3 +64,20 @@ Content-Type: application/json
 ### get all mambers in a group
 GET http://localhost:3000/groups/61cb0b7acf77802015b59241/mambers/ HTTP/1.1
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQ
+
+
+
+### send message to a group
+POST http://localhost:3000/groups/61cb0b7acf77802015b59241/messages/ HTTP/1.1
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQ
+Content-Type: application/json
+
+{
+    "text": "This is second message.."
+}
+
+
+
+### get messages from a group
+GET http://localhost:3000/groups/61cb0b7acf77802015b59241/messages/ HTTP/1.1
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQ

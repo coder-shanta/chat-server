@@ -61,9 +61,10 @@ router.post("/login", async (ctx) => {
     return (ctx.body = {
       success: true,
       user: {
-        id: user.id,
+        _id: user.id,
         name: user.name,
         email: user.email,
+        avaterColor: user.avaterColor,
         token: token,
       },
     });
@@ -130,9 +131,10 @@ router.post("/register", async (ctx) => {
     return (ctx.body = {
       success: true,
       user: {
-        id: newUser.id,
+        _id: newUser.id,
         name: newUser.name,
         email: newUser.email,
+        avaterColor: newUser.avaterColor,
         token: token,
       },
     });

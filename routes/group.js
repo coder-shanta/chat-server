@@ -4,6 +4,7 @@ const passport = require("../passport");
 const validate = require("validate.js");
 const Group = require("../models/Group");
 const User = require("../models/User");
+const Message = require("../models/Message");
 
 const router = new Router({
   prefix: "/groups",
@@ -253,4 +254,127 @@ router.get(
   }
 );
 
+// get 20 messages of a group
+router.get(
+  "/:id/messages",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  async (ctx) => {
+    const user = ctx.state.user;
+
+    try {
+      const constraints = {
+        id: {
+          presence: {
+            allowEmpty: false,
+          },
+        },
+      };
+
+      const error = validate(ctx.params, constraints);
+
+      if (error)
+        return (ctx.body = {
+          success: false,
+          error,
+        });
+
+      const group = await Group.findOne({
+        _id: ctx.params.id,
+      }).populate({
+        path: "messages",
+        populate: {
+          path: "sender",
+          select: "-groups",
+        },
+      });
+
+      if (group === null)
+        return (ctx.body = {
+          success: false,
+          message: "Sorry, Group was deleted.",
+        });
+
+      if (group.mambers.indexOf(user.id) !== -1) {
+        // You are a mamber of this group
+
+        return (ctx.body = group.messages);
+      } else {
+        return (ctx.body = {
+          success: false,
+          message: "Sorry, You are not a mamber of this group.",
+        });
+      }
+    } catch (error) {
+      ctx.throw(500, error);
+    }
+  }
+);
+
+// post a messages on this group
+router.post(
+  "/:id/messages",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  async (ctx) => {
+    const user = ctx.state.user;
+
+    try {
+      const constraints = {
+        text: {
+          presence: {
+            allowEmpty: false,
+          },
+        },
+      };
+
+      const error = validate(ctx.request.body, constraints);
+
+      if (error)
+        return (ctx.body = {
+          success: false,
+          error,
+        });
+
+      const group = await Group.findOne({
+        _id: ctx.params.id,
+      });
+
+      if (group === null)
+        return (ctx.body = {
+          success: false,
+          message: "Sorry, Group was deleted.",
+        });
+
+      if (group.mambers.indexOf(user.id) !== -1) {
+        // You are a mamber of this group
+        // let group = await Group.findOne({
+        //   _id: ctx.params.id,
+        // }).populate("mambers", "-groups");
+
+        const message = await Message.create({
+          text: ctx.request.body.text,
+          sender: user.id,
+        });
+
+        group.messages.push(message.id);
+        await group.save();
+
+        return (ctx.body = {
+          success: true,
+          message: message,
+        });
+      } else {
+        return (ctx.body = {
+          success: false,
+          message: "Sorry, You are not a mamber of this group.",
+        });
+      }
+    } catch (error) {
+      ctx.throw(500, error);
+    }
+  }
+);
 module.exports = router;
