@@ -3,14 +3,34 @@ const passport = require("../passport");
 
 const validate = require("validate.js");
 const Group = require("../models/Group");
+const User = require("../models/User");
 
 const router = new Router({
   prefix: "/groups",
 });
 
-// get all groups created by you
+// Get all of your groups
 router.get(
   "/",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  async (ctx) => {
+    const user = ctx.state.user;
+
+    try {
+      const my = await User.findOne({ _id: user.id }).populate("groups");
+
+      return (ctx.body = my.groups);
+    } catch (error) {
+      ctx.throw(500, error);
+    }
+  }
+);
+
+// get all groups created by you
+router.get(
+  "/me",
   passport.authenticate("jwt", {
     session: false,
   }),
@@ -77,6 +97,65 @@ router.post(
         success: true,
         group: group,
       });
+    } catch (error) {
+      ctx.throw(500, error);
+    }
+  }
+);
+
+// Add mamber to a group
+router.post(
+  "/add",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  async (ctx) => {
+    const user = ctx.state.user;
+
+    try {
+      const constraints = {
+        userId: {
+          presence: {
+            allowEmpty: false,
+          },
+        },
+        groupId: {
+          presence: {
+            allowEmpty: false,
+          },
+        },
+      };
+
+      const error = validate(ctx.request.body, constraints);
+
+      if (error)
+        return (ctx.body = {
+          success: false,
+          error,
+        });
+
+      const group = await Group.findOne({ _id: ctx.request.body.groupId });
+
+      if (group === null)
+        return (ctx.body = {
+          success: false,
+          message: "Sorry, Group was deleted.",
+        });
+
+      if (group.admins.indexOf(user.id) !== -1) {
+        group.mambers.push(ctx.request.userId);
+        await group.save();
+
+        return (ctx.body = {
+          success: true,
+          message: "New User added succesfully.",
+        });
+      } else {
+        return (ctx.body = {
+          success: false,
+          message: "Sorry, You can't do this.",
+        });
+      }
     } catch (error) {
       ctx.throw(500, error);
     }

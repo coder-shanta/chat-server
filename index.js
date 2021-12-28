@@ -48,6 +48,21 @@ app
     })
   );
 
+// Add 1 second delay on every request
+app.use(async (ctx, next) => {
+  const wait = async () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 1000);
+    });
+  };
+
+  await wait();
+
+  await next();
+});
+
 app
   .use(root.routes())
   .use(auth.routes())

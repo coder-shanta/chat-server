@@ -3,7 +3,7 @@ GET http://localhost:3000 HTTP/1.1
 
 ### Who Am I
 GET http://localhost:3000/whoami HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhYmRhYjU4Zjc3MTQ2YjczN2ExMDYiLCJpYXQiOjE2NDA2NzY3Nzl9.PVL06w0nPWK-YYxvXaAdMHNMUOmY-bhROvbQnt-xc2c
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQ
 
 ### Login
 POST http://localhost:3000/auth/login HTTP/1.1
@@ -20,26 +20,42 @@ Content-Type: application/json
 
 {
     "name": "Shanta Miah",
-    "email": "coder.shanta@gmail.com",
+    "email": "sdcsoder.shanta@gmail.com",
     "password": "123456"
 }
 
-### Get all groups created by me
+
+### Get all all of your groups includes created by you.
 GET http://localhost:3000/groups HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhYmRhYjU4Zjc3MTQ2YjczN2ExMDYiLCJpYXQiOjE2NDA2NzY3Nzl9.PVL06w0nPWK-YYxvXaAdMHNMUOmY-bhROvbQnt-xc2c
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQ
+
+
+### Get all groups created by you
+GET http://localhost:3000/groups/me HTTP/1.1
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQ
 
 
 ### Make a group
 POST http://localhost:3000/groups HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhYmRhYjU4Zjc3MTQ2YjczN2ExMDYiLCJpYXQiOjE2NDA2NzY3Nzl9.PVL06w0nPWK-YYxvXaAdMHNMUOmY-bhROvbQnt-xc2c
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQ
 Content-Type: application/json
 
 {
-    "name": "First Group",
-    "mambers": []
+    "name": "First Group"
 }
 
 
 ### Find mambers to add in a group
 GET http://localhost:3000/mambers/search/shanta HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhYmRhYjU4Zjc3MTQ2YjczN2ExMDYiLCJpYXQiOjE2NDA2NzY3Nzl9.PVL06w0nPWK-YYxvXaAdMHNMUOmY-bhROvbQnt-xc2c
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQbhROvbQnt-xc2c
+
+
+### Add mamber to a group
+POST http://localhost:3000/groups/add HTTP/1.1
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQ
+Content-Type: application/json
+
+{
+    "groupId": "61cac1a718a5ca52b343319b",
+    "userId": "61cac1a718a5ca52b343319b"
+}

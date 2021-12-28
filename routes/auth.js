@@ -60,7 +60,12 @@ router.post("/login", async (ctx) => {
 
     return (ctx.body = {
       success: true,
-      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        token: token,
+      },
     });
   } catch (error) {
     ctx.throw(500, error);
@@ -124,7 +129,12 @@ router.post("/register", async (ctx) => {
 
     return (ctx.body = {
       success: true,
-      token,
+      user: {
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+        token: token,
+      },
     });
   } catch (error) {
     ctx.throw(500, error);
