@@ -143,17 +143,108 @@ router.post(
         });
 
       if (group.admins.indexOf(user.id) !== -1) {
-        group.mambers.push(ctx.request.userId);
-        await group.save();
+        if (group.mambers.indexOf(ctx.request.body.userId) !== -1) {
+          return (ctx.body = {
+            success: false,
+            message: "This user has alrady in this group.",
+          });
+        } else {
+          group.mambers.push(ctx.request.body.userId);
+          await group.save();
 
-        return (ctx.body = {
-          success: true,
-          message: "New User added succesfully.",
-        });
+          const sUser = await User.findOne({ _id: ctx.request.body.userId });
+          sUser.groups.push(group.id);
+          await sUser.save();
+
+          return (ctx.body = {
+            success: true,
+            message: "New User added succesfully.",
+          });
+        }
       } else {
         return (ctx.body = {
           success: false,
-          message: "Sorry, You can't do this.",
+          message: "Sorry, You can't do this. Only admin can add mamber.",
+        });
+      }
+    } catch (error) {
+      ctx.throw(500, error);
+    }
+  }
+);
+
+// get all mambers of a group
+router.get(
+  "/:id/mambers",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  async (ctx) => {
+    const user = ctx.state.user;
+
+    try {
+      const constraints = {
+        id: {
+          presence: {
+            allowEmpty: false,
+          },
+        },
+      };
+
+      const error = validate(ctx.params, constraints);
+
+      if (error)
+        return (ctx.body = {
+          success: false,
+          error,
+        });
+
+      const group = await Group.findOne({
+        _id: ctx.params.id,
+      });
+
+      if (group === null)
+        return (ctx.body = {
+          success: false,
+          message: "Sorry, Group was deleted.",
+        });
+
+      if (group.mambers.indexOf(user.id) !== -1) {
+        let group = await Group.findOne({
+          _id: ctx.params.id,
+        }).populate("mambers", "-groups");
+
+        // all thingis are perfact
+        // return (ctx.body = group.mambers);
+
+        const rm = [];
+
+        // add admin field in responce
+        group.mambers.forEach((m) => {
+          if (group.admins.indexOf(m._id) !== -1) {
+            rm.push({
+              _id: m._id,
+              name: m.name,
+              email: m.email,
+              avaterColor: m.avaterColor,
+              admin: true,
+            });
+          } else {
+            rm.push({
+              _id: m._id,
+              name: m.name,
+              email: m.email,
+              avaterColor: m.avaterColor,
+              admin: false,
+            });
+          }
+        });
+
+        return (ctx.body = rm);
+      } else {
+        return (ctx.body = {
+          success: false,
+          message: "Sorry, You can't see this.",
         });
       }
     } catch (error) {
