@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
+const { Schema, SchemaTypes } = mongoose;
 
 const UserSchema = new Schema({
   name: {
@@ -15,6 +15,16 @@ const UserSchema = new Schema({
     required: true,
     select: false,
   },
+  avaterColor: {
+    type: String,
+    required: true,
+  },
+  groups: [
+    {
+      type: SchemaTypes.ObjectId,
+      ref: "group",
+    },
+  ],
 });
 
 module.exports = mongoose.model("user", UserSchema);

@@ -13,10 +13,22 @@ const GroupSchema = new Schema(
         ref: "user",
       },
     ],
+    admins: [
+      {
+        type: SchemaTypes.ObjectId,
+        ref: "user",
+      },
+    ],
     creator: {
       type: SchemaTypes.ObjectId,
       ref: "user",
     },
+    messages: [
+      {
+        type: SchemaTypes.ObjectId,
+        ref: "message",
+      },
+    ],
   },
   { timestamps: true }
 );

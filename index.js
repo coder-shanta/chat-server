@@ -14,6 +14,7 @@ const { Server } = require("socket.io");
 const root = require("./routes");
 const auth = require("./routes/auth");
 const group = require("./routes/group");
+const mamber = require("./routes/mamber");
 
 const passport = require("./passport");
 
@@ -47,7 +48,11 @@ app
     })
   );
 
-app.use(root.routes()).use(auth.routes()).use(group.routes());
+app
+  .use(root.routes())
+  .use(auth.routes())
+  .use(group.routes())
+  .use(mamber.routes());
 
 const httpServer = createServer(app.callback());
 

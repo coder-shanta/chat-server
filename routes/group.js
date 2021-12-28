@@ -8,6 +8,7 @@ const router = new Router({
   prefix: "/groups",
 });
 
+// get all groups created by you
 router.get(
   "/",
   passport.authenticate("jwt", {
@@ -25,10 +26,10 @@ router.get(
     } catch (error) {
       ctx.throw(500, error);
     }
-    ctx.body = "All groupes created by you.";
   }
 );
 
+// create a group
 router.post(
   "/",
   passport.authenticate("jwt", {
@@ -64,6 +65,13 @@ router.post(
           success: false,
           message: "Group creation failed.",
         });
+
+      user.groups.push(group._id);
+      await user.save();
+
+      group.mambers.push(user.id);
+      group.admins.push(user.id);
+      await group.save();
 
       return (ctx.body = {
         success: true,
