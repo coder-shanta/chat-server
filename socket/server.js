@@ -3,6 +3,7 @@ const { Server } = require("socket.io");
 const Message = require("../models/Message");
 const User = require("../models/User");
 const Group = require("../models/Group");
+const jwt = require("jsonwebtoken");
 
 const CORS_ORIGIN = process.env.CORS ? process.env.CORS.split(",") : "*";
 
@@ -15,13 +16,28 @@ module.exports = (httpServer) => {
 
   // Socket.io middlewares
   io.use((socket, next) => {
-    let handshake = socket.handshake;
-    next();
+    try {
+      let handshake = socket.handshake;
+      const data = jwt.verify(handshake.auth.token, process.env.SECRET);
+
+      User.findOne({ _id: data.sub })
+        .select("-groups")
+        .then((user) => {
+          if (user) {
+            return next();
+          } else {
+            return next(new Error("handshake failed."));
+          }
+        })
+        .catch((error) => {
+          return next(error);
+        });
+    } catch (error) {
+      return next(error);
+    }
   });
 
   io.on("connection", (socket) => {
-    console.log("A connection made succesfully.", socket.id);
-
     // Join room
     socket.on("join", (groupId) => {
       socket.join(groupId);
@@ -56,10 +72,6 @@ module.exports = (httpServer) => {
         .catch((error) => {
           console.log(error);
         });
-    });
-
-    socket.on("disconnect", () => {
-      console.log("User Disconnected.", socket.id);
     });
   });
 };
