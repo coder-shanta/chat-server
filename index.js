@@ -3,11 +3,12 @@ const { createServer } = require("http");
 const Koa = require("koa"),
   json = require("koa-json"),
   logger = require("koa-logger"),
-  body = require("koa-bodyparser");
-cors = require("@koa/cors");
+  body = require("koa-bodyparser"),
+  cors = require("@koa/cors");
 
 const mongoose = require("mongoose");
 
+// Load socket server
 const socketServer = require("./socket/server");
 
 // Load routes
@@ -18,9 +19,14 @@ const mamber = require("./routes/mamber");
 
 const passport = require("./passport");
 
+// Init importent variable
+const PORT = process.env.PORT || 3000;
+const CORS_ORIGIN = process.env.CORS ? process.env.CORS.split(",") : "*";
+const DB_URL = process.env.DB_URL || "mongodb://localhost/chat_db";
+
 // Database connection
 mongoose
-  .connect(process.env.DB_URL, {
+  .connect(DB_URL, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   })
@@ -34,10 +40,7 @@ const app = new Koa();
 
 app.use(passport.initialize());
 
-const port = process.env.PORT || 3000;
-
-const CORS_ORIGIN = process.env.CORS ? process.env.CORS.split(",") : "*";
-
+// Apply middlewares
 app
   .use(logger())
   .use(json())
@@ -48,32 +51,20 @@ app
     })
   );
 
-// Add 1 second delay on every request
-// app.use(async (ctx, next) => {
-//   const wait = async () => {
-//     return new Promise((resolve) => {
-//       setTimeout(() => {
-//         resolve();
-//       }, 1000);
-//     });
-//   };
-
-//   await wait();
-
-//   await next();
-// });
-
+// Add routes
 app
   .use(root.routes())
   .use(auth.routes())
   .use(group.routes())
   .use(mamber.routes());
 
+// Create http server
 const httpServer = createServer(app.callback());
 
-// connect socket server with http server
+// Create socket server
 socketServer(httpServer);
 
-httpServer.listen(port, () =>
-  console.log(`Server runing at http://localhost:3000`)
+// Server listner
+httpServer.listen(PORT, () =>
+  console.log(`Server runing at http://localhost:${PORT}`)
 );

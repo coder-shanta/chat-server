@@ -1,14 +1,16 @@
 const Router = require("@koa/router");
 const bcrypt = require("bcrypt");
 const validate = require("validate.js");
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
 const randomcolor = require("randomcolor");
+const jwt = require("jsonwebtoken");
+
+const User = require("../models/User");
 
 const router = new Router({
   prefix: "/auth",
 });
 
+// Login
 router.post("/login", async (ctx) => {
   try {
     const constraints = {
@@ -73,6 +75,7 @@ router.post("/login", async (ctx) => {
   }
 });
 
+// Register
 router.post("/register", async (ctx) => {
   try {
     const constraints = {

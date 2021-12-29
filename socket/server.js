@@ -14,7 +14,7 @@ module.exports = (httpServer) => {
     },
   });
 
-  // Socket.io middlewares
+  // auth middlewares
   io.use((socket, next) => {
     try {
       let handshake = socket.handshake;
@@ -48,8 +48,8 @@ module.exports = (httpServer) => {
       socket.leave(groupId);
     });
 
-    // save message in database
-    // send message to all users
+    // Save message in database
+    // Send message to a room
     socket.on("sendMessage", ({ to, from, text }) => {
       Message.create({
         sender: from,
@@ -57,8 +57,8 @@ module.exports = (httpServer) => {
       })
         .then((msg) => {
           Group.findOne({ _id: to }).then((group) => {
+            // Add message to input.group
             group.messages.push(msg);
-
             group.save();
 
             Message.findOne({ _id: msg.id })
