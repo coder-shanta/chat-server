@@ -5,6 +5,7 @@ const validate = require("validate.js");
 const Group = require("../models/Group");
 const User = require("../models/User");
 const Message = require("../models/Message");
+const { isValidObjectId } = require("mongoose");
 
 const router = new Router({
   prefix: "/groups",
@@ -198,6 +199,17 @@ router.get(
     const user = ctx.state.user;
 
     try {
+      const query = {};
+
+      query.limit = parseInt(ctx.query.limit, 10) || 10;
+      query.skip = parseInt(ctx.query.skip, 10) || 0;
+
+      if (!isValidObjectId(ctx.params.id))
+        return (ctx.body = {
+          success: false,
+          message: "Sorry, Group not found.",
+        });
+
       const group = await Group.findOne({
         _id: ctx.params.id,
       });
@@ -226,6 +238,14 @@ router.get(
               options: {
                 select: "-groups",
               },
+            },
+
+            options: {
+              sort: {
+                createdAt: -1,
+              },
+              limit: query.limit,
+              skip: query.skip,
             },
           },
         ]);
@@ -258,8 +278,12 @@ router.get(
         const object = JSON.parse(json);
 
         object.mambers = rm;
+        object.messages.reverse();
 
-        return (ctx.body = object);
+        return (ctx.body = {
+          success: true,
+          data: object,
+        });
       } else {
         return (ctx.body = {
           success: false,
