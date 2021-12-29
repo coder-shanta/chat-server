@@ -92,7 +92,7 @@ router.post(
 
       const group = await Group.create({
         name: ctx.request.body.name,
-        creator: user.id,
+        creator: user,
       });
 
       if (group === null)
@@ -180,6 +180,90 @@ router.post(
         return (ctx.body = {
           success: false,
           message: "Sorry, You can't do this. Only admin can add mamber.",
+        });
+      }
+    } catch (error) {
+      ctx.throw(500, error);
+    }
+  }
+);
+
+// get group info and messages
+router.get(
+  "/:id",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  async (ctx) => {
+    const user = ctx.state.user;
+
+    try {
+      const group = await Group.findOne({
+        _id: ctx.params.id,
+      });
+
+      if (group === null)
+        return (ctx.body = {
+          success: false,
+          message: "Sorry, Group was deleted.",
+        });
+
+      if (group.mambers.indexOf(user.id) !== -1) {
+        let group = await Group.findOne({
+          _id: ctx.params.id,
+        }).populate([
+          {
+            path: "mambers",
+            options: {
+              select: "-groups",
+            },
+          },
+          {
+            path: "messages",
+
+            populate: {
+              path: "sender",
+              options: {
+                select: "-groups",
+              },
+            },
+          },
+        ]);
+
+        const rm = [];
+
+        // add admin field in responce
+        group.mambers.forEach((m) => {
+          if (group.admins.indexOf(m._id) !== -1) {
+            rm.push({
+              _id: m._id,
+              name: m.name,
+              email: m.email,
+              avaterColor: m.avaterColor,
+              admin: true,
+            });
+          } else {
+            rm.push({
+              _id: m._id,
+              name: m.name,
+              email: m.email,
+              avaterColor: m.avaterColor,
+              admin: false,
+            });
+          }
+        });
+
+        const json = JSON.stringify(group);
+
+        const object = JSON.parse(json);
+
+        object.mambers = rm;
+
+        return (ctx.body = object);
+      } else {
+        return (ctx.body = {
+          success: false,
+          message: "Sorry, You can't see this.",
         });
       }
     } catch (error) {

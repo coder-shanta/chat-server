@@ -3,7 +3,7 @@ GET http://localhost:3000 HTTP/1.1
 
 ### Who Am I
 GET http://localhost:3000/whoami HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQ
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNiMTIwOTgyMDRjMjIyM2MyZmZjNjEiLCJpYXQiOjE2NDA3NjU3MjZ9.0Sgvxtfu2ljVhlZR-KLk_tjCL2wNeed7AzPThRhBVcA
 
 ### Login
 POST http://localhost:3000/auth/login HTTP/1.1
@@ -27,17 +27,17 @@ Content-Type: application/json
 
 ### Get all all of your groups includes created by you.
 GET http://localhost:3000/groups HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQ
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNiMTIwOTgyMDRjMjIyM2MyZmZjNjEiLCJpYXQiOjE2NDA3NjU3MjZ9.0Sgvxtfu2ljVhlZR-KLk_tjCL2wNeed7AzPThRhBVcA
 
 
 ### Get all groups created by you
 GET http://localhost:3000/groups/me HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQ
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNiMTIwOTgyMDRjMjIyM2MyZmZjNjEiLCJpYXQiOjE2NDA3NjU3MjZ9.0Sgvxtfu2ljVhlZR-KLk_tjCL2wNeed7AzPThRhBVcA
 
 
 ### Make a group
 POST http://localhost:3000/groups HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQ
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNiMTIwOTgyMDRjMjIyM2MyZmZjNjEiLCJpYXQiOjE2NDA3NjU3MjZ9.0Sgvxtfu2ljVhlZR-KLk_tjCL2wNeed7AzPThRhBVcA
 Content-Type: application/json
 
 {
@@ -52,7 +52,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N
 
 ### Add mamber to a group
 POST http://localhost:3000/groups/add HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQ
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNiMTIwOTgyMDRjMjIyM2MyZmZjNjEiLCJpYXQiOjE2NDA3NjU3MjZ9.0Sgvxtfu2ljVhlZR-KLk_tjCL2wNeed7AzPThRhBVcA
 Content-Type: application/json
 
 {
@@ -63,13 +63,13 @@ Content-Type: application/json
 
 ### get all mambers in a group
 GET http://localhost:3000/groups/61cb0b7acf77802015b59241/mambers/ HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQ
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNiMTIwOTgyMDRjMjIyM2MyZmZjNjEiLCJpYXQiOjE2NDA3NjU3MjZ9.0Sgvxtfu2ljVhlZR-KLk_tjCL2wNeed7AzPThRhBVcA
 
 
 
 ### send message to a group
 POST http://localhost:3000/groups/61cb0b7acf77802015b59241/messages/ HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQ
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNiMTIwOTgyMDRjMjIyM2MyZmZjNjEiLCJpYXQiOjE2NDA3NjU3MjZ9.0Sgvxtfu2ljVhlZR-KLk_tjCL2wNeed7AzPThRhBVcA
 Content-Type: application/json
 
 {
@@ -77,7 +77,11 @@ Content-Type: application/json
 }
 
 
+### get group info and messages
+GET http://localhost:3000/groups/61cb0b7acf77802015b59241/ HTTP/1.1
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNiMTIwOTgyMDRjMjIyM2MyZmZjNjEiLCJpYXQiOjE2NDA3NjU3MjZ9.0Sgvxtfu2ljVhlZR-KLk_tjCL2wNeed7AzPThRhBVcA
+
 
 ### get messages from a group
 GET http://localhost:3000/groups/61cb0b7acf77802015b59241/messages/ HTTP/1.1
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNhY2M4N2Q4OTM5ZDViYzE0MzU2YjQiLCJpYXQiOjE2NDA2ODA1ODh9.CzQWU-_LyYBEUJpnEVB716wWTawxMpacXbZphuGovwQ
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MWNiMTIwOTgyMDRjMjIyM2MyZmZjNjEiLCJpYXQiOjE2NDA3NjU3MjZ9.0Sgvxtfu2ljVhlZR-KLk_tjCL2wNeed7AzPThRhBVcAacXbZphuGovwQ

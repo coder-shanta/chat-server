@@ -22,10 +22,18 @@ module.exports = (httpServer) => {
   io.on("connection", (socket) => {
     console.log("A connection made succesfully.", socket.id);
 
+    // Join room
     socket.on("join", (groupId) => {
       socket.join(groupId);
     });
 
+    // Leave room
+    socket.on("leave", (groupId) => {
+      socket.leave(groupId);
+    });
+
+    // save message in database
+    // send message to all users
     socket.on("sendMessage", ({ to, from, text }) => {
       Message.create({
         sender: from,
@@ -51,7 +59,6 @@ module.exports = (httpServer) => {
     });
 
     socket.on("disconnect", () => {
-      socket.leave(socket.id);
       console.log("User Disconnected.", socket.id);
     });
   });
