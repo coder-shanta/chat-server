@@ -20,7 +20,21 @@ router.get(
     const user = ctx.state.user;
 
     try {
-      const my = await User.findOne({ _id: user.id }).populate("groups");
+      const my = await User.findOne({ _id: user.id }).populate({
+        path: "groups",
+
+        populate: {
+          path: "creator",
+          options: {
+            select: "name",
+          },
+        },
+        options: {
+          sort: {
+            updatedAt: -1,
+          },
+        },
+      });
 
       return (ctx.body = my.groups);
     } catch (error) {
