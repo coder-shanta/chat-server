@@ -77,7 +77,9 @@ router.post("/register", async (ctx) => {
   try {
     const constraints = {
       name: {
-        presence: true,
+        presence: {
+          allowEmpty: false,
+        },
         type: "string",
       },
       email: {
